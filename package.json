@@ -1,0 +1,36 @@
+{
+  "name": "express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "webpack -w",
+    "start": "nodemon server.js --ignore public --ignore frontend"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9",
+    "axios": "^0.25.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2"
+  },
+  "dependencies": {
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^4.6.0",
+    "core-js": "^3.3.2",
+    "css-loader": "^3.2.0",
+    "csurf": "^1.11.0",
+    "dotenv": "^14.3.2",
+    "express-session": "^1.17.2",
+    "helmet": "^5.0.2",
+    "mongoose": "^6.1.8",
+    "regenerator-runtime": "^0.13.3",
+    "style-loader": "^1.0.0"
+  }
+}
