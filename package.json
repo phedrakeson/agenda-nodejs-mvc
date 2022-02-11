@@ -31,6 +31,7 @@
     "helmet": "^5.0.2",
     "mongoose": "^6.1.8",
     "regenerator-runtime": "^0.13.3",
-    "style-loader": "^1.0.0"
+    "style-loader": "^1.0.0",
+    "validator": "^13.7.0"
   }
 }
