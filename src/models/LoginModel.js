@@ -3,7 +3,7 @@ const validator = require('validator');
 
 const LoginSchema = new mongoose.Schema({
   email: { type: String, required: true },
-  password: { type: String, required: true }
+  senha: { type: String, required: true }
 });
 
 const LoginModel = new mongoose.model('login', LoginSchema);
@@ -28,9 +28,9 @@ class Login {
 
     validar() {
       this.cleanUp();
-
+      console.log(this.body)
       if(!validator.isEmail(this.body.email)) this.errors.push('E-mail inválido');
-      if(this.body.password.length < 3 || this.body.password.length > 50) this.errors.push('A senha precisa ter entre 3 e 50 caracteres');
+      if(this.body.senha.length < 3 || this.body.senha.length > 50) this.errors.push('A senha precisa ter entre 3 e 50 caracteres');
 
 
     }
@@ -43,7 +43,7 @@ class Login {
       }
       this.body = {
         email: this.body.email,
-        password: this.body.password
+        senha: this.body.senha
       };
     }
 }
