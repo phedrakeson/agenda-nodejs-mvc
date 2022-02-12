@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcryptjs = require('bcryptjs');
 
 const LoginSchema = new mongoose.Schema({
   email: { type: String, required: true },
@@ -9,43 +10,52 @@ const LoginSchema = new mongoose.Schema({
 const LoginModel = new mongoose.model('login', LoginSchema);
 
 class Login {
-    constructor(body) {
-      this.body = body;
-      this.errors = [];
-      this.user = null;
+  constructor(body) {
+    this.body = body;
+    this.errors = [];
+    this.user = null;
+  }
+
+  async register() {
+    this.validar();
+    if (this.errors.length > 0) return;
+    await this.usuarioExiste();
+    if (this.errors.length > 0) return;
+
+    const salt = bcryptjs.genSaltSync();
+    this.body.senha = bcryptjs.hashSync(this.body.senha, salt);
+    try {
+      this.user = await LoginModel.create(this.body);
+    } catch (error) {
+      console.error(error);
     }
+  }
 
-    async register() {
-      this.validar();
-      if(this.errors.length > 0) return;
+  async usuarioExiste() {
+    const user = await LoginModel.findOne({ email: this.body.email });
+    if (user) this.errors.push('Usuário já cadastrado');
+  }
 
-      try {
-        this.user = await LoginModel.create(this.body);
-      } catch (error) {
-        console.error(error);
+  validar() {
+    this.cleanUp();
+    console.log(this.body)
+    if (!validator.isEmail(this.body.email)) this.errors.push('E-mail inválido');
+    if (this.body.senha.length < 3 || this.body.senha.length > 50) this.errors.push('A senha precisa ter entre 3 e 50 caracteres');
+
+
+  }
+
+  cleanUp() {
+    for (const chave in this.body) {
+      if (typeof this.body[chave] !== 'string') {
+        this.body[chave] = '';
       }
     }
-
-    validar() {
-      this.cleanUp();
-      console.log(this.body)
-      if(!validator.isEmail(this.body.email)) this.errors.push('E-mail inválido');
-      if(this.body.senha.length < 3 || this.body.senha.length > 50) this.errors.push('A senha precisa ter entre 3 e 50 caracteres');
-
-
-    }
-
-    cleanUp() {
-      for(const chave in this.body) {
-        if(typeof this.body[chave] !== 'string') {
-          this.body[chave] = '';
-        }
-      }
-      this.body = {
-        email: this.body.email,
-        senha: this.body.senha
-      };
-    }
+    this.body = {
+      email: this.body.email,
+      senha: this.body.senha
+    };
+  }
 }
 
 module.exports = Login;
