@@ -34,8 +34,9 @@
           <h2>Faça seu login</h2>
 
           <p>Se você já tem conta, faça seu login abaixo</p>
-          <form action="/login/signin" method="post">
+          <form action="/login/login" method="post">
             <div class="mb-3">
+              <input type="hidden" name="_csrf" value=<%= csrfToken %>>
               <label for="email" class="form-label">Email</label>
               <input type="email" class="form-control" id="email" placeholder="name@example.com" name="email">
             </div>
