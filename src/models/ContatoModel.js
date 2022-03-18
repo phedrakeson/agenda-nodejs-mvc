@@ -47,10 +47,17 @@ Contato.prototype.register = async function () {
   this.contato = await ContatoModel.create(this.body);
 }
 
+Contato.prototype.edit = async function (id) {
+  if (typeof id !== 'string') return;
+  this.valida();
+  if (this.errors.length > 0) return;
+  this.contato = await ContatoModel.findByIdAndUpdate(id, this.body, { new: true });
+}
+
 Contato.buscaPorId = async function (id) {
   if (typeof id !== 'string') return;
-  const user = await ContatoModel.findById(id);
-  return user;
+  const contatos = await ContatoModel.findById(id);
+  return contatos;
 }
 
 module.exports = Contato;
