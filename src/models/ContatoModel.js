@@ -56,7 +56,13 @@ Contato.prototype.edit = async function (id) {
 
 Contato.buscaPorId = async function (id) {
   if (typeof id !== 'string') return;
-  const contatos = await ContatoModel.findById(id);
+  const contato = await ContatoModel.findById(id);
+  return contato;
+}
+
+Contato.buscaContatos = async function () {
+  const contatos = await ContatoModel.find()
+    .sort({ criadoEm: -1 });
   return contatos;
 }
 
